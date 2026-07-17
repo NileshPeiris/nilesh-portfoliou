@@ -22,7 +22,6 @@ import Skills from './components/sections/Skills'
 import Projects from './components/sections/Projects'
 import Certifications from './components/sections/Certifications'
 import Terminal from './components/sections/Terminal'
-import Stats from './components/sections/Stats'
 import Contact from './components/sections/Contact'
 
 export default function App() {
@@ -69,7 +68,6 @@ export default function App() {
           {/* Main content */}
           <main>
             <Hero />
-            <Stats />
             <About />
             <Education />
             <Experience />

@@ -16,48 +16,35 @@ export default function ParticleCanvas() {
     canvas.width = W
     canvas.height = H
 
-    const PARTICLE_COUNT = Math.min(80, Math.floor(W / 20))
-
-    const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: Math.random() * 1.5 + 0.5,
-      alpha: Math.random() * 0.5 + 0.1,
-    }))
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%""\'#&_(),.;:?!\\|{}<>[]^~'
+    const fontSize = 14
+    const columns = Math.floor(W / fontSize)
+    
+    // Array of drops - one per column
+    const drops = Array.from({ length: columns }, () => Math.random() * -100)
 
     let animId
     const draw = () => {
-      ctx.clearRect(0, 0, W, H)
+      // Create translucent background to show trailing effect
+      ctx.fillStyle = 'rgba(10, 10, 12, 0.05)'
+      ctx.fillRect(0, 0, W, H)
 
-      particles.forEach(p => {
-        p.x += p.vx
-        p.y += p.vy
-        if (p.x < 0 || p.x > W) p.vx *= -1
-        if (p.y < 0 || p.y > H) p.vy *= -1
+      ctx.fillStyle = 'rgba(0, 212, 255, 0.7)' // Cyber cyan color
+      ctx.font = `${fontSize}px Orbitron, monospace`
 
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(0, 212, 255, ${p.alpha})`
-        ctx.fill()
-      })
+      for (let i = 0; i < drops.length; i++) {
+        const text = charset[Math.floor(Math.random() * charset.length)]
+        
+        // Draw the character
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize)
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 120) {
-            ctx.beginPath()
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 * (1 - dist / 120)})`
-            ctx.lineWidth = 0.5
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.stroke()
-          }
+        // Reset drop to top randomly when it hits the bottom
+        if (drops[i] * fontSize > H && Math.random() > 0.975) {
+          drops[i] = 0
         }
+
+        // Increment Y coordinate
+        drops[i]++
       }
 
       animId = requestAnimationFrame(draw)
@@ -70,6 +57,14 @@ export default function ParticleCanvas() {
       H = window.innerHeight
       canvas.width = W
       canvas.height = H
+      
+      // Re-initialize drops if window gets larger
+      const newColumns = Math.floor(W / fontSize)
+      if (newColumns > drops.length) {
+        for (let i = drops.length; i < newColumns; i++) {
+          drops.push(Math.random() * -100)
+        }
+      }
     }
     window.addEventListener('resize', handleResize)
 
@@ -83,6 +78,7 @@ export default function ParticleCanvas() {
     <canvas
       ref={canvasRef}
       id="particle-canvas"
+      className="absolute inset-0 pointer-events-none opacity-40 z-0"
       aria-hidden="true"
     />
   )
