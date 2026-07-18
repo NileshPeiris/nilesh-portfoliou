@@ -38,7 +38,7 @@ My final-year project — an AI-powered QR code threat detection system — exem
     github: 'https://github.com/nileshpeiris',
     credly: 'https://www.credly.com/users/nilesh-peiris',
     instagram: 'https://www.instagram.com/nileshpeiris',
-    facebook: 'https://www.facebook.com/nilesh.peiris',
+    facebook: 'https://www.facebook.com/share/1BnGaJtY2P/?mibextid=wwXIfr',
   },
 };
 
