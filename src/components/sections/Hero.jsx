@@ -162,12 +162,12 @@ export default function Hero() {
                 transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
               />
 
-              {/* Square avatar frame */}
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80">
+              {/* Square avatar frame (aspect 3:4) */}
+              <div className="relative aspect-[3/4] w-64 sm:w-80 h-auto">
                 {/* Background glow */}
                 <div className="absolute inset-0 bg-cyber-cyan/10 rounded-xl blur-2xl pointer-events-none" />
 
-                {/* Avatar container — square */}
+                {/* Avatar container */}
                 <div className="relative w-full h-full border-2 border-cyber-cyan/40 bg-cyber-card overflow-hidden flex items-center justify-center rounded-xl">
                   {/* Cyber pattern background */}
                   <div className="absolute inset-0 bg-cyber-grid bg-grid opacity-20" />
@@ -176,7 +176,7 @@ export default function Hero() {
                   <img
                     src={`${import.meta.env.BASE_URL}nilesh-photo.jpg`}
                     alt="Mathias Hewage Nilesh Thisun Peiris"
-                    className="w-full h-full object-cover object-center object-top relative z-10"
+                    className="w-full h-full object-cover relative z-10"
                   />
 
                   {/* Scan line effect */}

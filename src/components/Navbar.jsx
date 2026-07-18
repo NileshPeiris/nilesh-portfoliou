@@ -91,15 +91,6 @@ export default function Navbar({ theme, toggleTheme }) {
 
             {/* Right actions */}
             <div className="flex items-center gap-3">
-              {/* Theme toggle */}
-              <button
-                onClick={toggleTheme}
-                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-cyber-cyan transition-colors rounded"
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              >
-                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-              </button>
-
               {/* Mobile menu toggle */}
               <button
                 onClick={() => setMobileOpen(o => !o)}
