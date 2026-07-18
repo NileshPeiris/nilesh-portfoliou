@@ -1,16 +1,18 @@
 /**
  * Contact.jsx — Professional contact form with social links.
+ * Form submissions are sent to nileshthisunpeiris@gmail.com via Formspree.
  */
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, Phone } from 'lucide-react'
+import { Mail, Linkedin, Github, MapPin, Send, CheckCircle, Instagram, Facebook } from 'lucide-react'
 import { personal } from '../../data/portfolioData'
 
 const CONTACT_METHODS = [
   { icon: Mail, label: 'Email', value: personal.email, href: `mailto:${personal.email}` },
-  { icon: Phone, label: 'Phone', value: personal.phone, href: `tel:${personal.phone}` },
   { icon: Linkedin, label: 'LinkedIn', value: 'nilesh-peiris-a9b8b2292', href: personal.links.linkedin },
   { icon: Github, label: 'GitHub', value: 'nileshpeiris', href: personal.links.github },
+  { icon: Instagram, label: 'Instagram', value: '@nileshpeiris', href: personal.links.instagram },
+  { icon: Facebook, label: 'Facebook', value: 'nilesh peiris', href: personal.links.facebook },
   { icon: MapPin, label: 'Location', value: personal.location, href: null },
 ]
 
@@ -18,16 +20,46 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleChange = e => setFormData(f => ({ ...f, [e.target.name]: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSending(true)
-    // Simulate network request — replace with actual form service (Formspree / EmailJS / Netlify Forms)
-    await new Promise(r => setTimeout(r, 1200))
+    setError(null)
+
+    try {
+      // Submit via Formspree — replace YOUR_FORM_ID with your actual Formspree form ID
+      // Sign up free at https://formspree.io and create a form for nileshthisunpeiris@gmail.com
+      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _replyto: formData.email,
+        }),
+      })
+
+      if (response.ok) {
+        setSubmitted(true)
+      } else {
+        // Fallback: open mailto link directly
+        const mailtoLink = `mailto:nileshthisunpeiris@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`
+        window.open(mailtoLink)
+        setSubmitted(true)
+      }
+    } catch {
+      // Fallback: open mailto link directly
+      const mailtoLink = `mailto:nileshthisunpeiris@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`From: ${formData.name} (${formData.email})\n\n${formData.message}`)}`
+      window.open(mailtoLink)
+      setSubmitted(true)
+    }
+
     setSending(false)
-    setSubmitted(true)
   }
 
   return (
@@ -107,7 +139,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="glass-card-static p-6 sm:p-8">
-              <p className="font-mono text-xs text-cyber-cyan mb-6">&gt; send_message()</p>
+              <p className="font-mono text-xs text-cyber-cyan mb-6">&gt; send_message() → nileshthisunpeiris@gmail.com</p>
 
               {submitted ? (
                 <motion.div
@@ -191,6 +223,7 @@ export default function Contact() {
                       placeholder="Tell me about the opportunity or project..."
                     />
                   </div>
+                  {error && <p className="font-mono text-xs text-red-400">{error}</p>}
                   <button
                     type="submit"
                     disabled={sending}
@@ -213,7 +246,7 @@ export default function Contact() {
                     )}
                   </button>
                   <p className="font-mono text-[10px] text-gray-600 text-center">
-                    Your information will only be used to respond to your enquiry.
+                    Messages go directly to nileshthisunpeiris@gmail.com
                   </p>
                 </form>
               )}
