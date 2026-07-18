@@ -12,7 +12,7 @@ const CONTACT_METHODS = [
   { icon: Linkedin, label: 'LinkedIn', value: 'nilesh-peiris-a9b8b2292', href: personal.links.linkedin },
   { icon: Github, label: 'GitHub', value: 'nileshpeiris', href: personal.links.github },
   { icon: Instagram, label: 'Instagram', value: '@nileshpeiris', href: personal.links.instagram },
-  { icon: Facebook, label: 'Facebook', value: 'nilesh peiris', href: personal.links.facebook },
+  { icon: Facebook, label: 'Facebook', value: 'nilesh.thisun.peiris', href: personal.links.facebook },
   { icon: MapPin, label: 'Location', value: personal.location, href: null },
 ]
 
