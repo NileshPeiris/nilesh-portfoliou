@@ -174,7 +174,7 @@ export default function Hero() {
 
                   {/* Profile Image */}
                   <img
-                    src="/nilesh-photo.jpg"
+                    src={`${import.meta.env.BASE_URL}nilesh-photo.jpg`}
                     alt="Mathias Hewage Nilesh Thisun Peiris"
                     className="w-full h-full object-cover object-center object-top relative z-10"
                   />
